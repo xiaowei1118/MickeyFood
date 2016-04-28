@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.box.sjfood.mapper.FoodMapper">
+ <cache eviction="LRU" flushInterval="60000" size="512" readOnly="true" />
+	<resultMap id="BaseResultMap" type="com.box.sjfood.model.Food"
+		extends="SmallResultMap">
+		<result column="grade" property="grade" jdbcType="REAL" />
+		<result column="info" property="info" jdbcType="VARCHAR" />
+		<result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+		<result column="status" property="status" jdbcType="SMALLINT" />
+		<result column="food_flag" property="foodFlag" jdbcType="VARCHAR" />
+		<result column="tag" property="tag" jdbcType="SMALLINT" />
+		<result column="category_id" property="categoryId" jdbcType="INTEGER" />
+		<result column="prime_cost" property="primeCost" jdbcType="REAL" />
+	</resultMap>
+
+	<resultMap id="SmallResultMap" type="com.box.sjfood.model.ShortFood">
+		<id column="food_id" property="foodId" jdbcType="BIGINT" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="price" property="price" jdbcType="REAL" />
+		<result column="discount_price" property="discountPrice"
+			jdbcType="REAL" />
+		<result column="img_url" property="imgUrl" jdbcType="VARCHAR" />
+		<result column="is_discount" property="isDiscount" jdbcType="SMALLINT" />
+		<result column="sale_number" property="saleNumber" jdbcType="BIGINT" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		food_id, name, price, discount_price, grade, img_url, info,
+		modify_time,
+		status,
+		food_flag, tag, is_discount, category_id,
+		prime_cost, sale_number
+	</sql>
+
+	<sql id="Small_Column_List">
+		food_id, name, price, discount_price, img_url,
+		is_discount,
+		sale_number
+	</sql>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from food
+		where food_id = #{foodId,jdbcType=BIGINT}
+		AND tag=1
+	</select>
+
+	<update id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		update  food
+		set tag=0
+		where food_id = #{foodId,jdbcType=BIGINT}
+	</update>
+	
+	<insert id="insert" parameterType="com.box.sjfood.model.Food">
+		insert into food (food_id,
+		name, price,
+		discount_price, grade, img_url,
+		info, modify_time, status,
+		food_flag, tag,
+		is_discount, category_id, prime_cost,
+		sale_number)
+		values (#{foodId,jdbcType=BIGINT},
+		#{name,jdbcType=VARCHAR},
+		#{price,jdbcType=REAL},
+		#{discountPrice,jdbcType=REAL},
+		#{grade,jdbcType=REAL},
+		#{imgUrl,jdbcType=VARCHAR},
+		#{info,jdbcType=VARCHAR},
+		#{modifyTime,jdbcType=TIMESTAMP},
+		#{status,jdbcType=SMALLINT},
+		#{foodFlag,jdbcType=VARCHAR},
+		#{tag,jdbcType=SMALLINT},
+		#{isDiscount,jdbcType=SMALLINT},
+		#{categoryId,jdbcType=INTEGER},
+		#{primeCost,jdbcType=REAL},
+		#{saleNumber,jdbcType=BIGINT})
+	</insert>
+	<insert id="insertSelective" parameterType="com.box.sjfood.model.Food">
+		insert into food
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="foodId != null">
+				food_id,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="price != null">
+				price,
+			</if>
+			<if test="discountPrice != null">
+				discount_price,
+			</if>
+			<if test="grade != null">
+				grade,
+			</if>
+			<if test="imgUrl != null">
+				img_url,
+			</if>
+			<if test="info != null">
+				info,
+			</if>
+			<if test="modifyTime != null">
+				modify_time,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+
+			<if test="foodFlag != null">
+				food_flag,
+			</if>
+			<if test="tag != null">
+				tag,
+			</if>
+			<if test="isDiscount != null">
+				is_discount,
+			</if>
+			<if test="categoryId != null">
+				category_id,
+			</if>
+			<if test="primeCost != null">
+				prime_cost,
+			</if>
+			<if test="saleNumber != null">
+				sale_number,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="foodId != null">
+				#{foodId,jdbcType=BIGINT},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="price != null">
+				#{price,jdbcType=REAL},
+			</if>
+			<if test="discountPrice != null">
+				#{discountPrice,jdbcType=REAL},
+			</if>
+			<if test="grade != null">
+				#{grade,jdbcType=REAL},
+			</if>
+			<if test="imgUrl != null">
+				#{imgUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="info != null">
+				#{info,jdbcType=VARCHAR},
+			</if>
+			<if test="modifyTime != null">
+				#{modifyTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=SMALLINT},
+			</if>
+			<if test="foodFlag != null">
+				#{foodFlag,jdbcType=VARCHAR},
+			</if>
+			<if test="tag != null">
+				#{tag,jdbcType=SMALLINT},
+			</if>
+			<if test="isDiscount != null">
+				#{isDiscount,jdbcType=SMALLINT},
+			</if>
+			<if test="categoryId != null">
+				#{categoryId,jdbcType=INTEGER},
+			</if>
+			<if test="primeCost != null">
+				#{primeCost,jdbcType=REAL},
+			</if>
+			<if test="saleNumber != null">
+				#{saleNumber,jdbcType=BIGINT},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.box.sjfood.model.Food">
+		update food
+		<set>
+			<if test="name != null">
+				name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="price != null">
+				price = #{price,jdbcType=REAL},
+			</if>
+			<if test="discountPrice != null">
+				discount_price = #{discountPrice,jdbcType=REAL},
+			</if>
+			<if test="grade != null">
+				grade = #{grade,jdbcType=REAL},
+			</if>
+			<if test="imgUrl != null">
+				img_url = #{imgUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="info != null">
+				info = #{info,jdbcType=VARCHAR},
+			</if>
+			<if test="modifyTime != null">
+				modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=SMALLINT},
+			</if>
+			<if test="foodFlag != null">
+				food_flag = #{foodFlag,jdbcType=VARCHAR},
+			</if>
+			<if test="tag != null">
+				tag = #{tag,jdbcType=SMALLINT},
+			</if>
+			<if test="isDiscount != null">
+				is_discount = #{isDiscount,jdbcType=SMALLINT},
+			</if>
+			<if test="categoryId != null">
+				category_id = #{categoryId,jdbcType=INTEGER},
+			</if>
+			<if test="primeCost != null">
+				prime_cost = #{primeCost,jdbcType=REAL},
+			</if>
+			<if test="saleNumber != null">
+				sale_number = #{saleNumber,jdbcType=BIGINT},
+			</if>
+		</set>
+		where food_id = #{foodId,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.box.sjfood.model.Food">
+		update food
+		set
+		name = #{name,jdbcType=VARCHAR},
+		price = #{price,jdbcType=REAL},
+		discount_price = #{discountPrice,jdbcType=REAL},
+		grade =
+		#{grade,jdbcType=REAL},
+		img_url = #{imgUrl,jdbcType=VARCHAR},
+		info =
+		#{info,jdbcType=VARCHAR},
+		modify_time =
+		#{modifyTime,jdbcType=TIMESTAMP},
+		status = #{status,jdbcType=SMALLINT},
+		food_flag =
+		#{foodFlag,jdbcType=VARCHAR},
+		tag =
+		#{tag,jdbcType=SMALLINT},
+		is_discount =
+		#{isDiscount,jdbcType=SMALLINT},
+		category_id =
+		#{categoryId,jdbcType=INTEGER},
+		prime_cost =
+		#{primeCost,jdbcType=REAL},
+		sale_number = #{saleNumber,jdbcType=BIGINT}
+		where food_id = #{foodId,jdbcType=BIGINT} and tag=1
+	</update>
+
+	<select id="selectFoods" resultMap="SmallResultMap">
+		select
+		<include refid="Small_Column_List" />
+		from food
+		<where>
+		     tag=1
+			<if test="categoryId!=null">
+				and category_id = #{categoryId,jdbcType=BIGINT}
+			</if>
+			<if test="foodTag!=null">
+				AND (food_flag like #{foodTag,jdbcType=VARCHAR}
+				OR name like
+				#{foodTag,jdbcType=VARCHAR})
+			</if>
+		</where>
+		<if test="sortId==0">
+			ORDER BY modify_time DESC
+		</if>
+		<if test="sortId==1">
+			ORDER BY sale_number DESC
+		</if>
+		<if test="sortId==2">
+			ORDER BY price ASC
+		</if>
+
+		LIMIT 10 OFFSET #{page,jdbcType=INTEGER}
+
+	</select>
+
+	<!-- 更新销量 ，只做增操作 -->
+	<update id="changeFoodSaleNumber">
+		update food
+		set
+		sale_number =
+		sale_number+#{orderCount,jdbcType=INTEGER}
+		where food_id =
+		#{foodId,jdbcType=BIGINT}
+	</update>
+
+	<select id="selectFoodsByTwoTags" resultMap="SmallResultMap">
+		select
+		<include refid="Small_Column_List" />
+		from food
+		<where>
+		    tag=1
+			<if test="categoryId!=null">
+				and category_id = #{categoryId,jdbcType=BIGINT}
+			</if>
+			<if test="oneFlag!=null">
+				and ( ( food_flag LIKE #{oneFlag,jdbcType=VARCHAR} OR
+				food_flag LIKE
+				#{twoFlag,jdbcType=VARCHAR}
+				) OR ( name LIKE
+				#{oneFlag,jdbcType=VARCHAR} OR name LIKE
+				#{twoFlag,jdbcType=VARCHAR}
+				) )
+			</if>
+		</where>
+		<if test="sortId==0"> ORDER BY modify_time DESC </if>
+		<if test="sortId==1">
+			ORDER BY sale_number DESC
+		</if>
+		<if test="sortId==2"> ORDER BY price ASC
+		</if>
+		LIMIT 10 OFFSET #{page,jdbcType=INTEGER}
+
+	</select>
+
+    <select id="getAllFoods" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from food
+		where tag=1
+		order by food_id
+	</select>
+
+  <select id="getFoodListDiscount" resultMap="SmallResultMap">
+		select
+		<include refid="Small_Column_List" />
+		from food
+		where is_discount = 1 and tag=1
+		order by modify_time DESC,discount_price ASC
+		limit #{page,jdbcType=SMALLINT},10
+	</select>
+
+   <select id="getFoodListFresh" resultMap="SmallResultMap">
+		select
+		<include refid="Small_Column_List" />
+		from food
+		where 
+		  tag=1
+		order by modify_time DESC
+		limit #{page,jdbcType=SMALLINT},10
+	</select>
+
+   <select id="getFoodListWelcome" resultMap="SmallResultMap">
+		select
+		<include refid="Small_Column_List" />
+		from food
+		where 
+		  tag=1
+		order by sale_number DESC
+		limit #{page,jdbcType=SMALLINT},10
+	</select>
+	
+	
+</mapper>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>te4st.html</title>
+	
+    <meta name="keywords" content="keyword1,keyword2,keyword3">
+    <meta name="description" content="this is my page">
+    <meta name="content-type" content="text/html; charset=UTF-8">
+    <script type='text/javascript' src="js/jquery-1.7.2.min.js"></script>
+    
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+  </head>
+  
+  <body>
+    This is my HTML page. <br>
+  </body>
+   
+   <script type="text/javascript">
+   		var json={
+   			"name":"xiaowei",
+   			"age":18
+   		};
+   		
+   		$.ajax({
+	    type: "post",
+	    url: "../SJFood/test/testjson.do", //your valid url
+	    contentType: "application/json", //this is required for spring 3 - ajax to work (at least for me)
+	    data: JSON.stringify(json), //json object or array of json objects
+	    success: function(result) {
+	        //do nothing
+	    },
+    error: function(){
+       console.log('failure');
+    }
+});
+   </script>
+</html>
